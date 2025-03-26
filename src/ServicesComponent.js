@@ -17,6 +17,7 @@ import userResearchImage from './assets/images/user_research.png';
 
 const ServicesComponent = () => {
   const theme = useTheme();
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -37,8 +38,8 @@ const ServicesComponent = () => {
 
   useEffect(() => {
     restoreCardOrder();
-  }, [services]);
-  
+  }, []);
+
 
   const handleExpandClick = (service) => {
     setExpanded((prev) => ({
@@ -94,11 +95,12 @@ const ServicesComponent = () => {
       display: 'flex',
       flexDirection: 'column',
       marginTop: '0rem',
+      padding: "0rem",
       [theme.breakpoints.down('md')]: {
         marginLeft: '0',
       },
     }}>
-    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '19%', marginTop: '2rem', [theme.breakpoints.down('md')]: { marginLeft: '0' } }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '19%', marginTop: '3.5rem', [theme.breakpoints.down('md')]: { marginLeft: '0' } }}>
       
     <IconButton
         sx={{
