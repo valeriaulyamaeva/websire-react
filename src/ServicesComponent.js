@@ -79,10 +79,16 @@ const ServicesComponent = () => {
   const restoreCardOrder = () => {
     const savedOrder = JSON.parse(localStorage.getItem("serviceOrder"));
     if (savedOrder) {
-      const orderedServices = savedOrder.map(id => services.find(service => service.id === id));
-      setServices(orderedServices);
+      const orderedServices = savedOrder
+        .map(id => services.find(service => service.id === id))
+        .filter(service => service !== undefined);
+  
+      if (orderedServices.length > 0) {
+        setServices(orderedServices);
+      }
     }
   };
+  
 
   return (
     <Box sx={{
