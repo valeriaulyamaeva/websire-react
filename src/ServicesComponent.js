@@ -37,7 +37,8 @@ const ServicesComponent = () => {
 
   useEffect(() => {
     restoreCardOrder();
-  }, []);
+  }, [services]);
+  
 
   const handleExpandClick = (service) => {
     setExpanded((prev) => ({
@@ -82,12 +83,12 @@ const ServicesComponent = () => {
       const orderedServices = savedOrder
         .map(id => services.find(service => service.id === id))
         .filter(service => service !== undefined);
-  
-      if (orderedServices.length > 0) {
+      if (orderedServices.length === services.length) {
         setServices(orderedServices);
       }
     }
   };
+  
   
 
   return (
