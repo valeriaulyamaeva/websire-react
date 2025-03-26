@@ -89,8 +89,6 @@ const ServicesComponent = () => {
     }
   };
   
-  
-
   return (
     <Box sx={{
       display: 'flex',
@@ -100,7 +98,7 @@ const ServicesComponent = () => {
         marginLeft: '0',
       },
     }}>
-    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '19%', marginTop: '3.5rem', [theme.breakpoints.down('md')]: { marginLeft: '0' } }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '19%', marginTop: '2rem', [theme.breakpoints.down('md')]: { marginLeft: '0' } }}>
       
     <IconButton
         sx={{
@@ -200,7 +198,7 @@ const ServicesComponent = () => {
     padding: { xs: '1rem', md: '0' } 
   }}
 >
-  <header style={{ marginBottom: "2rem", textAlign: 'center' }}>
+  <header style={{ marginBottom: "2rem", textAlign: 'left', marginLeft: "2rem" }}>
     <Box sx={{ backgroundColor: '#fff', marginBottom: '1rem' }}>
       <Typography 
         variant="h6" 

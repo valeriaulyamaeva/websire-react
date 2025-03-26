@@ -34,7 +34,7 @@ const WorksComponent = () => {
         marginLeft: '0',
       },
     }}>
-    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '19%', marginTop: '3.5rem', [theme.breakpoints.down('md')]: { marginLeft: '0' } }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '19%', marginTop: '2.5rem', [theme.breakpoints.down('md')]: { marginLeft: '0' } }}>
       
     <IconButton
         sx={{
@@ -136,7 +136,7 @@ const WorksComponent = () => {
       marginLeft: '0',
     },
       }}>
-  <Box sx={{ backgroundColor: '#fff', marginBottom: '1rem', textAlign: 'center' }}>
+  <Box sx={{ backgroundColor: '#fff', marginBottom: '1rem', textAlign: 'left' }}>
     <Typography 
       variant="h6" 
       sx={{ 

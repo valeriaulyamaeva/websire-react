@@ -31,6 +31,7 @@ const AboutMeComponent = () => {
       flexDirection: 'column',
       marginLeft: '19%',
       marginTop: '0rem',
+      padding: "0rem",
       [theme.breakpoints.down('md')]: {
         marginLeft: '0',
       },
@@ -130,7 +131,7 @@ const AboutMeComponent = () => {
     </Box>
 
 <main className="main-content">
-  <Box sx={{ backgroundColor: '#fff', marginBottom: '1rem', marginLeft: '3rem', padding: '0rem' }}>
+  <Box sx={{ backgroundColor: '#fff', marginBottom: '0rem', marginLeft: '3rem', padding: '0rem' }}>
     <Typography variant="h6" sx={{ fontSize: '1rem', marginBottom: '0.75rem', fontStyle: 'italic', fontWeight: 550 }}>
       Рад тебя видеть!
     </Typography>
@@ -308,6 +309,7 @@ const AboutMeComponent = () => {
   style={{
     background: 'linear-gradient(90deg, #b065e8, #fa8e38)',
     padding: '3rem',
+    margin: "0rem",
     color: '#fff',
     width: '100%',
     maxWidth: '100%',

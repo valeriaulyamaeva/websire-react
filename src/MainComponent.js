@@ -29,7 +29,7 @@ const MainComponent = () => {
         marginLeft: '0',
       },
     }}>
-    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '19%', marginTop: '3.5rem', [theme.breakpoints.down('md')]: { marginLeft: '0' } }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '19%', marginTop: '3rem', [theme.breakpoints.down('md')]: { marginLeft: '0' } }}>
       
     <IconButton
         sx={{

@@ -41,16 +41,52 @@ const ContactsComponent = () => {
         newErrors.name = "Имя должно содержать хотя бы 2 символа";
       }
   
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!emailRegex.test(formData.email)) {
-        newErrors.email = "Некорректный email";
+      const email = formData.email;
+      const emailErrors = [];
+      
+      if (!email) {
+        newErrors.email = "Email не может быть пустым.";
+      } else {
+        if (!email.includes('@')) {
+          emailErrors.push("Email должен содержать символ '@'.");
+        }
+        const domainPattern = /\.[a-zA-Z]{2,}$/;
+        if (!domainPattern.test(email)) {
+          emailErrors.push("Email должен содержать домен (например, example@mail.com).");
+        }
+      
+        if (emailErrors.length > 0) {
+          newErrors.email = emailErrors.join("\n");
+        }
       }
-  
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-      if (!passwordRegex.test(formData.password)) {
-        newErrors.password = "Пароль должен содержать минимум 6 символов, цифру, спецсимвол, заглавную и строчную буквы";
+      
+      const password = formData.password;
+      const passwordErrors = [];
+      
+      if (!password) {
+        newErrors.password = "Пароль не может быть пустым.";
+      } else {
+        if (password.length < 6) {
+          passwordErrors.push("Пароль должен содержать минимум 6 символов.");
+        }
+        if (!/[A-Z]/.test(password)) {
+          passwordErrors.push("Пароль должен содержать хотя бы одну заглавную букву (A-Z).");
+        }
+        if (!/[a-z]/.test(password)) {
+          passwordErrors.push("Пароль должен содержать хотя бы одну строчную букву (a-z).");
+        }
+        if (!/\d/.test(password)) {
+          passwordErrors.push("Пароль должен содержать хотя бы одну цифру (0-9).");
+        }
+        if (!/[@$!%*?&]/.test(password)) {
+          passwordErrors.push("Пароль должен содержать хотя бы один специальный символ (@$!%*?&).");
+        }
+      
+        if (passwordErrors.length > 0) {
+          newErrors.password = passwordErrors.join("\n");
+        }
       }
-  
+        
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     };
@@ -182,7 +218,6 @@ const ContactsComponent = () => {
 </Box>
     );
   };
-  
 
   const ContactSection = () => (
 <Box
@@ -347,7 +382,7 @@ const ContactsComponent = () => {
       </Drawer>
     </Box>
 
-      <Container sx={{  marginTop: '2rem' }}>
+      <Container sx={{ marginLeft: "19%", marginTop: '2rem' }}>
         <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 2 }}>
           <Button
             variant="outlined"

@@ -128,9 +128,6 @@ const App = () => {
             <Route path="/contact" element={<ContactsComponent />} />
           </Routes>
         </Box>
-        <Box sx={{ marginTop: '6rem', textAlign: 'left', fontSize: '0.5rem', color: '#fff' }}>
-  <Typography>Copyright ©2025 Антон Павлов. Все права защищены.</Typography>
-</Box>
       </Box>
     </Router>
   );
