@@ -104,11 +104,11 @@ const WorksComponent = () => {
         </IconButton>
         <Typography sx={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '3rem' }}>Jac.</Typography>
         <List>
-          <ListItem><RouterLink to="/websire-react/" style={{ color: '#fff', textDecoration: 'none' }}>Главная</RouterLink></ListItem>
-          <ListItem><RouterLink to="/websire-react/about" style={{ color: '#fff', textDecoration: 'none' }}>О себе</RouterLink></ListItem>
-          <ListItem><RouterLink to="/websire-react/services" style={{ color: '#fff', textDecoration: 'none' }}>Услуги</RouterLink></ListItem>
-          <ListItem><RouterLink to="/websire-react/works" style={{ color: '#fff', textDecoration: 'none' }}>Мои работы</RouterLink></ListItem>
-          <ListItem><RouterLink to="/websire-react/contact" style={{ color: '#fff', textDecoration: 'none' }}>Контакты</RouterLink></ListItem>
+          <ListItem><RouterLink to="/" style={{ color: '#fff', textDecoration: 'none' }}>Главная</RouterLink></ListItem>
+          <ListItem><RouterLink to="/about" style={{ color: '#fff', textDecoration: 'none' }}>О себе</RouterLink></ListItem>
+          <ListItem><RouterLink to="/services" style={{ color: '#fff', textDecoration: 'none' }}>Услуги</RouterLink></ListItem>
+          <ListItem><RouterLink to="/works" style={{ color: '#fff', textDecoration: 'none' }}>Мои работы</RouterLink></ListItem>
+          <ListItem><RouterLink to="/contact" style={{ color: '#fff', textDecoration: 'none' }}>Контакты</RouterLink></ListItem>
         </List>
         <Box sx={{ marginTop: '5rem' }}>
   <Link href="https://www.behance.net/" target="_blank" sx={{ display: 'block', marginBottom: 1 }}>
