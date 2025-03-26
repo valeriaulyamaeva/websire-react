@@ -13,6 +13,8 @@ import backgroundImage from './assets/images/contact_form_background.png';
 const ContactsComponent = () => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
 
   const toggleDrawer = () => {
     setMobileOpen(!mobileOpen);
@@ -97,24 +99,41 @@ const ContactsComponent = () => {
   
     const handleSubmit = (e) => {
       e.preventDefault();
+      
+      if (isBlocked) {
+        setErrors({ form: "Слишком много попыток. Попробуйте позже." });
+        return;
+      }
+    
       if (validate()) {
         const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
         const userExists = existingUsers.some(user => user.email === formData.email);
-  
+    
         if (userExists) {
           setErrors({ email: "Этот email уже зарегистрирован" });
+          setAttempts(prev => prev + 1);
+          
+          if (attempts + 1 >= 3) {
+            setIsBlocked(true);
+            setTimeout(() => {
+              setIsBlocked(false);
+              setAttempts(0);
+            }, 10000);
+          }
+    
           return;
         }
-  
+    
         const newUser = { ...formData };
         existingUsers.push(newUser);
         localStorage.setItem("users", JSON.stringify(existingUsers));
-  
+    
         setSuccessMessage("Регистрация успешна!");
         setFormData({ name: "", email: "", password: "" });
         setErrors({});
-  
-        setTimeout(() => setSuccessMessage(""), 3000);
+        setAttempts(0);
+    
+        setTimeout(() => setSuccessMessage(""), 1000);
       }
     };
   
@@ -167,6 +186,7 @@ const ContactsComponent = () => {
         input: { color: '#fff' }, 
         marginBottom: '1rem',
       }}
+      inputProps={{ maxLength: 50 }} 
     />
         <TextField
       label="Email"
@@ -183,6 +203,7 @@ const ContactsComponent = () => {
         input: { color: '#fff' }, 
         marginBottom: '1rem',
       }}
+      inputProps={{ maxLength: 50 }} 
     />
     <TextField
       label="Пароль"
@@ -211,6 +232,7 @@ const ContactsComponent = () => {
         width: '100%',
         '&:hover': { backgroundColor: '#ddd', transform: 'scale(1.05)' },
       }}
+      inputProps={{ maxLength: 20 }} 
     >
       Зарегистрироваться
     </Button>
