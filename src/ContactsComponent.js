@@ -31,45 +31,57 @@ const ContactsComponent = () => {
       email: "",
       password: "",
     });
-  
+
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState("");
-  
+    const [attempts, setAttempts] = useState(0);
+    const [isBlocked, setIsBlocked] = useState(false);
+
     const validate = () => {
       let newErrors = {};
+
+      const namePattern = /[a-zA-Zа-яА-Я]/; 
       if (!formData.name.trim()) {
-        newErrors.name = "Имя обязательно";
+          newErrors.name = "Имя обязательно";
       } else if (formData.name.trim().length < 2) {
-        newErrors.name = "Имя должно содержать хотя бы 2 символа";
+          newErrors.name = "Имя должно содержать хотя бы 2 символа";
+      } else if (!namePattern.test(formData.name)) {
+          newErrors.name = "Имя должно содержать хотя бы одну букву (А-Я, A-Z)";
       }
-  
-      const email = formData.email;
+
+      const email = formData.email.trim();
       const emailErrors = [];
-      
+
       if (!email) {
         newErrors.email = "Email не может быть пустым.";
       } else {
         if (!email.includes('@')) {
           emailErrors.push("Email должен содержать символ '@'.");
         }
+        const parts = email.split('@');
+        if (parts.length === 2 && (!parts[0].trim() || parts[0].includes(' '))) {
+          emailErrors.push("Часть перед '@' не должна быть пустой или содержать пробелы.");
+        }
         const domainPattern = /\.[a-zA-Z]{2,}$/;
         if (!domainPattern.test(email)) {
           emailErrors.push("Email должен содержать домен (например, example@mail.com).");
         }
-      
         if (emailErrors.length > 0) {
           newErrors.email = emailErrors.join("\n");
         }
       }
-      
+
       const password = formData.password;
       const passwordErrors = [];
-      
+
       if (!password) {
         newErrors.password = "Пароль не может быть пустым.";
       } else {
         if (password.length < 6) {
           passwordErrors.push("Пароль должен содержать минимум 6 символов.");
+        }
+        if (password.length > 30) {
+          passwordErrors.push("Пароль не должен превышать 30 символов.");
         }
         if (!/[A-Z]/.test(password)) {
           passwordErrors.push("Пароль должен содержать хотя бы одну заглавную букву (A-Z).");
@@ -83,20 +95,19 @@ const ContactsComponent = () => {
         if (!/[@$!%*?&]/.test(password)) {
           passwordErrors.push("Пароль должен содержать хотя бы один специальный символ (@$!%*?&).");
         }
-      
         if (passwordErrors.length > 0) {
           newErrors.password = passwordErrors.join("\n");
         }
       }
-        
+
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     };
-  
+
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-  
+
     const handleSubmit = (e) => {
       e.preventDefault();
       
@@ -107,8 +118,8 @@ const ContactsComponent = () => {
     
       if (validate()) {
         const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-        const userExists = existingUsers.some(user => user.email === formData.email);
-    
+        const userExists = existingUsers.some(user => user.email.toLowerCase() === formData.email.toLowerCase());
+
         if (userExists) {
           setErrors({ email: "Этот email уже зарегистрирован" });
           setAttempts(prev => prev + 1);
@@ -118,25 +129,23 @@ const ContactsComponent = () => {
             setTimeout(() => {
               setIsBlocked(false);
               setAttempts(0);
-            }, 10000);
+            }, 10000); 
           }
-    
           return;
         }
-    
+
         const newUser = { ...formData };
         existingUsers.push(newUser);
         localStorage.setItem("users", JSON.stringify(existingUsers));
-    
+
         setSuccessMessage("Регистрация успешна!");
         setFormData({ name: "", email: "", password: "" });
         setErrors({});
         setAttempts(0);
-    
+
         setTimeout(() => setSuccessMessage(""), 1000);
       }
     };
-  
     return (
 <Box
   sx={{
@@ -221,6 +230,7 @@ const ContactsComponent = () => {
         input: { color: '#fff' }, 
         marginBottom: '1rem',
       }}
+      inputProps={{ maxLength: 20 }} 
     />
     <Button
       type="submit"
