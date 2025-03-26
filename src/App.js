@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import MainComponent from './MainComponent';
 import AboutMeComponent from './AboutMeComponent';
-import ServicesComponent from './pages/ServicesComponent';
+import ServicesComponent from './ServicesComponent';
 import WorksComponent from './WorksComponent';
 import ContactsComponent from './ContactsComponent';
 import Google from './assets/images/Goggle.png';
