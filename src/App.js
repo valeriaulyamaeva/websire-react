@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Grid, Typography, Box, IconButton, Drawer, Link } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { BrowserRouter as Router, Routes, Route, Link as RouterLink } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import MainComponent from './MainComponent';
