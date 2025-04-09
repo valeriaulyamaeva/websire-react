@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import PropTypes from "prop-types";
-import { COPYRIGHT_TEXT } from "../constants/data";  // Импортируем текст копирайта
+import { COPYRIGHT_TEXT } from "../constants/data";
 
 const Sidebar = ({ mobileOpen, toggleDrawer, socialLinks }) => (
   <>
@@ -40,7 +40,7 @@ const Sidebar = ({ mobileOpen, toggleDrawer, socialLinks }) => (
       </Box>
       <Box sx={{ marginTop: "auto", paddingTop: "2rem" }}>
         <Typography variant="body2" color="white" align="center">
-          {COPYRIGHT_TEXT}  {/* Отображаем текст копирайта */}
+          {COPYRIGHT_TEXT}
         </Typography>
       </Box>
     </Drawer>

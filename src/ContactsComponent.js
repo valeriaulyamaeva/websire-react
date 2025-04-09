@@ -39,41 +39,45 @@ const ContactsComponent = () => {
 
     const validate = () => {
       let newErrors = {};
-
-      const namePattern = /[a-zA-Zа-яА-Я]/; 
-      if (!formData.name.trim()) {
-          newErrors.name = "Имя обязательно";
-      } else if (formData.name.trim().length < 2) {
-          newErrors.name = "Имя должно содержать хотя бы 2 символа";
-      } else if (!namePattern.test(formData.name)) {
-          newErrors.name = "Имя должно содержать хотя бы одну букву (А-Я, A-Z)";
+    
+      const namePattern = /^[a-zA-Zа-яА-Я]+(?: [a-zA-Zа-яА-Я]+)*$/;
+      const trimmedName = formData.name.trim();
+    
+      if (!trimmedName) {
+        newErrors.name = "Имя обязательно";
+      } else if (trimmedName.length < 2) {
+        newErrors.name = "Имя должно содержать хотя бы 2 символа";
+      } else if (!namePattern.test(trimmedName)) {
+        newErrors.name = "Имя должно содержать только буквы и пробелы между словами";
       }
-
+    
       const email = formData.email.trim();
       const emailErrors = [];
-
+    
       if (!email) {
         newErrors.email = "Email не может быть пустым.";
+      } else if (/\s/.test(formData.email)) {
+        newErrors.email = "Email не должен содержать пробелы.";
       } else {
         if (!email.includes('@')) {
           emailErrors.push("Email должен содержать символ '@'.");
         }
         const parts = email.split('@');
-        if (parts.length === 2 && (!parts[0].trim() || parts[0].includes(' '))) {
-          emailErrors.push("Часть перед '@' не должна быть пустой или содержать пробелы.");
+        if (parts.length !== 2 || !parts[0] || !parts[1]) {
+          emailErrors.push("Некорректный формат email.");
         }
         const domainPattern = /\.[a-zA-Z]{2,}$/;
         if (!domainPattern.test(email)) {
-          emailErrors.push("Email должен содержать домен (например, example@mail.com).");
+          emailErrors.push("Email должен содержать корректный домен (например, example@mail.com).");
         }
         if (emailErrors.length > 0) {
           newErrors.email = emailErrors.join("\n");
         }
       }
-
+    
       const password = formData.password;
       const passwordErrors = [];
-
+    
       if (!password) {
         newErrors.password = "Пароль не может быть пустым.";
       } else {
@@ -99,7 +103,7 @@ const ContactsComponent = () => {
           newErrors.password = passwordErrors.join("\n");
         }
       }
-
+    
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     };
@@ -110,7 +114,7 @@ const ContactsComponent = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      
+    
       if (isBlocked) {
         setErrors({ form: "Слишком много попыток. Попробуйте позже." });
         return;
@@ -119,30 +123,35 @@ const ContactsComponent = () => {
       if (validate()) {
         const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
         const userExists = existingUsers.some(user => user.email.toLowerCase() === formData.email.toLowerCase());
-
+    
         if (userExists) {
           setErrors({ email: "Этот email уже зарегистрирован" });
           setAttempts(prev => prev + 1);
-          
+    
           if (attempts + 1 >= 3) {
             setIsBlocked(true);
             setTimeout(() => {
               setIsBlocked(false);
               setAttempts(0);
-            }, 10000); 
+            }, 10000);
           }
           return;
         }
-
-        const newUser = { ...formData };
+    
+        const newUser = {
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          password: formData.password, 
+        };
+    
         existingUsers.push(newUser);
         localStorage.setItem("users", JSON.stringify(existingUsers));
-
+    
         setSuccessMessage("Регистрация успешна!");
         setFormData({ name: "", email: "", password: "" });
         setErrors({});
         setAttempts(0);
-
+    
         setTimeout(() => setSuccessMessage(""), 1000);
       }
     };
