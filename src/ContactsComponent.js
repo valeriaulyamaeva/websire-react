@@ -25,6 +25,16 @@ const ContactsComponent = () => {
     localStorage.setItem("activeTab", tab);
   }, [tab]);
 
+  const hashPassword = async (password) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+  };
+  
+
   const RegistrationForm = () => {
     const [formData, setFormData] = useState({
       name: "",
@@ -112,7 +122,7 @@ const ContactsComponent = () => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
     
       if (isBlocked) {
@@ -122,7 +132,9 @@ const ContactsComponent = () => {
     
       if (validate()) {
         const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-        const userExists = existingUsers.some(user => user.email.toLowerCase() === formData.email.toLowerCase());
+        const userExists = existingUsers.some(
+          user => user.email.toLowerCase() === formData.email.toLowerCase()
+        );
     
         if (userExists) {
           setErrors({ email: "Этот email уже зарегистрирован" });
@@ -138,10 +150,12 @@ const ContactsComponent = () => {
           return;
         }
     
+        const hashedPassword = await hashPassword(formData.password);
+    
         const newUser = {
           name: formData.name.trim(),
           email: formData.email.trim(),
-          password: formData.password, 
+          password: hashedPassword,
         };
     
         existingUsers.push(newUser);
@@ -155,6 +169,7 @@ const ContactsComponent = () => {
         setTimeout(() => setSuccessMessage(""), 1000);
       }
     };
+    
     return (
 <Box
   sx={{
